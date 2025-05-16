@@ -8,6 +8,7 @@ import {
     obtenerUnoPorRut,
     loginUsuario
 } from '../services/users.service.js';
+import { middlewareSaludar, puedoBorrarMiddleware, validarTokenMiddleware } from '../middlewares/prueba.middleware.js';
 
 const router = Router();
 
@@ -31,19 +32,19 @@ router.put('/:rut', async (request, response) => {
     response.json(await actualizarUsuario(dataUsuario, rut));
 });
 
-router.delete('/:rut', async (request, response) => {
+router.delete('/:rut', validarTokenMiddleware, puedoBorrarMiddleware, async (request, response) => {
     const rut = parseInt(request.params.rut);
     response.json(await eliminarUsuario(rut));
 });
 
-router.post('/login', async (request, response) => {
+router.post('/login', middlewareSaludar, async (request, response) => {
     const dataEntrando = request.body;
     const respuesta = await loginUsuario(dataEntrando);
     if (respuesta.status === 200) {
         const token = jwt.sign(
-            { usuario: respuesta.usuario },
-            'asikdjholakhd109740912jadkl',
-            { expiresIn: '1h' }
+            respuesta.usuario,
+            process.env.CLAVE_JWT,
+            { expiresIn: '10h' }
         );
         response.json({ token });
     }
