@@ -9,6 +9,7 @@
     "prisma:migrate": "prisma migrate dev --name init",
     "prisma:seed": "node prisma/seed.js"
   },
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ProfeMarioStomas/autorizacion_autenticacion.git"

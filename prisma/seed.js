@@ -1,15 +1,30 @@
 import { PrismaClient } from '../src/generated/prisma/client/index.js';
-import dotenv from 'dotenv';
-dotenv.config();
-
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.userType.createMany({
+  await prisma.producto.createMany({
     data: [
-      { description: 'Admin' },
-      { description: 'Cliente' },
-      { description: 'Soporte' }
+      {
+        codigo_barras: 1234567,
+        marca: 'red bull',
+        nombre: 'redbull clasica',
+        medida: 'mililitros',
+        cantidad: 250
+      },
+      {
+        codigo_barras: 7654321,
+        marca: 'DC shoes',
+        nombre: 'court grafics negra',
+        medida: 'unidad',
+        cantidad: 1
+      },
+      {
+        codigo_barras: 2345678,
+        marca: 'apple',
+        nombre: 'macbook air m1 2020',
+        medida: 'unidad',
+        cantidad: 1
+      }
     ],
     skipDuplicates: true
   });
@@ -18,10 +33,10 @@ async function main() {
 }
 
 main()
-    .catch((e) => {
-      console.error(e);
-      process.exit(1);
-    })
-    .finally(async () => {
-      await prisma.$disconnect();
-    });
+  .catch((e) => {
+    console.error('Error en seed:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

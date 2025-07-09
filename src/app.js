@@ -1,14 +1,13 @@
 import express from 'express';
-import usersRoute from './routes/users.route.js';
+import productosRoute from './routes/productos.route.js';
 
 const app = express();
-
 app.use(express.json());
 
-app.use('/usuarios', usersRoute);
+app.use('/productos', productosRoute);
 
-app.get('/', (request, response) => {
-    response.send("Servicio funcionando correctamente");
+app.get('/', (req, res) => {
+  res.send('API de productos funcionando correctamente');
 });
 
 export default app;
